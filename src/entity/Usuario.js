@@ -1,25 +1,24 @@
 const { EntitySchema, RelationId } = require("typeorm")
+
 module.exports = new EntitySchema({
-    
-    name: "Prova",
-    tableName: "PROVA",
+    name: "Usuario",
+    tableName: "USUARIO",
     columns: {
-        IDPROVA:{
+        ID_USUARIO: {
             primary: true,
             type: "int",
             generated: true
         },
-        IDPRODUTO: {
-            primary: true,
-            type: "int"
-            
+        NOME: {
+            type: "varchar",
+            nullable: false,
         },
-        DATA_PROVA: {
-            type: "date",
+        EMAIL: {
+            type: "varchar",
             nullable: false
         },
-        NOTA: {
-            type: "float",
+        SENHA: {
+            type: "varchar",
             nullable: false
         }
     }
