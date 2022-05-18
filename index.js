@@ -74,15 +74,18 @@ app.delete("/usuarios/:ID_USUARIO", async (req, res) => {
 });
 
 app.post("/usuarios", async (req, res) => {
-  const { NOME, EMAIL, SENHA } = req.body;
+  const { NOME, EMAIL, SENHA, TIPO_USUARIO } = req.body;
   //console.log(req.body)
 
   //return res.json({EMAIL, SENHA, NOME});
   let userRepository = getRepository("Usuario");
-
-  const usuario = await userRepository.insert(req.body);
-
+  const contaNova = await userRepository.insert(req.body);  
   return res.status(200).json(req.body);
+
+  
+
+  
+  
 });
 
 app.get("/usuarios/:ID_USUARIO", async (req, res) => {
