@@ -46,14 +46,20 @@ app.get("/usuarios", async (req, res) => {
 })*/
 
 app.post("/login", async (req, res) => {
-  const { EMAIL } = req.body;
+  const { EMAIL, SENHA } = req.body;
   let userRepository = getRepository("Usuario");
 
   const usuario = await userRepository.findOne({
-    where: { EMAIL: EMAIL },
-  });
-
-  return res.status(200).json(usuario);
+    where: [{ EMAIL: EMAIL , SENHA: SENHA}],
+  })
+  
+  if (usuario != null) {
+    return res.status(200).json(usuario);
+  }
+  else{
+    return res.status(404).json({status: "Falha"})
+  }
+  
 });
 
 app.delete("/usuarios/:ID_USUARIO", async (req, res) => {
@@ -79,8 +85,18 @@ app.post("/usuarios", async (req, res) => {
 
   //return res.json({EMAIL, SENHA, NOME});
   let userRepository = getRepository("Usuario");
-  const contaNova = await userRepository.insert(req.body);  
-  return res.status(200).json(req.body);
+  const usuario = await userRepository.findOne({
+    where: [{ EMAIL: req.body.EMAIL }],
+  });
+  if(usuario == null){
+    const contaNova = await userRepository.insert(req.body); 
+    return res.status(200).json(req.body); 
+  }
+  else{
+    return res.status(400).json({ message: "Usuário já existe" });
+  }
+ 
+  
 
   
 
