@@ -45,18 +45,26 @@ app.get("/usuarios", async (req, res) => {
     
 })*/
 
-app.post("/login", async (req, res) => {
-  const { EMAIL, SENHA } = req.body;
-  let userRepository = getRepository("Usuario");
-
-  const usuario = await userRepository.findOne({
-    where: [{ EMAIL: EMAIL , SENHA: SENHA}],
-  })
+app.post('/login', async (req, res) => {
   
+const { EMAIL, SENHA } = req.body;
+
+let userRepository = getRepository("Usuario");
+
+  
+  const usuario = await userRepository.findOne({
+    where: [
+      { EMAIL: req.body.EMAIL, SENHA: req.body.SENHA}
+    ],
+  });
+  
+ // console.log(usuario.EMAIL);
   if (usuario != null) {
+    console.log("usuario", usuario)
     return res.status(200).json(usuario);
   }
   else{
+    console.log('falhou do backend')
     return res.status(404).json({status: "Falha"})
   }
   
@@ -121,30 +129,31 @@ app.get("/usuarios/:ID_USUARIO", async (req, res) => {
   }
 });
 
-/*app.patch("/users/:IDPRODUTO", async (req, res) =>{
-    console.log(req.params);
+app.patch("/nome/:ID_USUARIO", async (req, res) =>{
+    const{NOME} = req.body
     
-    let userRepository = getRepository("User")
+    let userRepository = getRepository("Usuario")
 
-    let produto = await userRepository.findOne({
+    const usuario = await userRepository.findOne({
         where: [
-            {IDPRODUTO: req.params.IDUSUARIO}
+            {ID_USUARIO: req.params.ID_USUARIO}
         ]
-    })
-
-    if (produto === null)
+    });
+ //return res.status(200).json(req.body)
+    if (usuario === null)
     {
         return res.status(400).json({message:"Usuário não encontrado!"})
     }
     else
     {
-        alterarSenha = await userRepository.update(
-            req.params.IDUSUARIO, {SENHA: `${req.body.SENHA}`}
+       const alterarNome = await userRepository.update(
+            req.params.ID_USUARIO, {NOME: `${req.body.NOME}`}
         )
-        usuario.SENHA = req.body.SENHA
-        return res.status(200).json({usuario})
+        return res.status(200).json(req.body)
+       
     }
-})*/
+
+})
 
 app.listen(3333, () => {
   console.log("mensagem fofa >-<");
