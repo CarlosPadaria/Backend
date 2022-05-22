@@ -1,4 +1,4 @@
-const { EntitySchema, RelationId } = require("typeorm")
+const { EntitySchema} = require("typeorm")
 
 module.exports = new EntitySchema({
     name: "Usuario",
@@ -25,5 +25,18 @@ module.exports = new EntitySchema({
             type: "varchar",
             nullable: false
         }
-    }
+    },
+     relations: {
+         receita: {
+             type: "many-to-one",
+            target: "Receita",
+           joinColumn: {
+                name: "ID_USUARIO",
+             },
+             inverseside: "usuario",
+         },
+     },
+    
 })
+   
+    
