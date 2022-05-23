@@ -1,4 +1,4 @@
-const { EntitySchema, RelationId, } = require("typeorm");
+const { EntitySchema, RelationId } = require("typeorm");
 
 module.exports = new EntitySchema({
   name: "Receita",
@@ -21,9 +21,9 @@ module.exports = new EntitySchema({
       type: "varchar",
       nullable: true,
     },
-    ID_USUARIO:{
-        type: "int",
-    }
+    ID_USUARIO: {
+      type: "int",
+    },
   },
 
   // do relations with  usuario table
@@ -33,6 +33,24 @@ module.exports = new EntitySchema({
       target: "Usuario",
       joinColumn: {
         name: "ID_USUARIO",
+      },
+      inverseside: "receita",
+    },
+    // do relation with ingrediente table
+    ingrediente: {
+      type: "one-to-many",
+      target: "Ingrediente",
+      joinColumn: {
+        name: "ID_RECEITA",
+      },
+      inverseside: "receita",
+    },
+    // do relation with passos table
+    passos: {
+      type: "one-to-many",
+      target: "Passos",
+      joinColumn: {
+        name: "ID_RECEITA",
       },
       inverseside: "receita",
     },

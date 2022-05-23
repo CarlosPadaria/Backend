@@ -121,6 +121,97 @@ app.get("/receitas", async (req, res) => {
   return res.status(200).json(receita);
 })
 
+app.post("/receitas", async (req, res) => {
+  let receitaRepository = getRepository("Receita");
+
+  const receita = await receitaRepository.insert(req.body);
+
+  console.log(req.body);
+  return res.status(200).json(req.body);
+})
+
+app.post("/passos", async (req, res) => {
+  let passoRepository = getRepository("Passos");
+
+  const passo = await passoRepository.insert(req.body);
+
+  //console.log(req.body);
+  return res.status(200).json(req.body);
+})
+
+
+app.post("/ingredientes", async (req, res) => {
+  let ingredienteRepository = getRepository("Ingrediente");
+
+  const ingrediente = await ingredienteRepository.insert(req.body);
+
+  //console.log(req.body);
+  return res.status(200).json(req.body);
+})
+
+app.get("/passos", async (req, res) => {
+  let passosRepository = getRepository("Passos");
+
+  const passo = await passosRepository.find();
+
+  return res.status(200).json(passo);
+})
+
+
+app.get("/passos/:ID_PASSOS", async (req, res) => {
+  let passosRepository = getRepository("Passos");
+  
+  const passo = await passosRepository.findOne({
+    where: [{ ID_PASSOS: req.params.ID_PASSOS }],
+  });
+
+  if (passo === null) {
+    return res.status(400).json({ message: "Ingrediente não encontrado!" });
+  }
+  else{
+    return res.status(200).json(passo);
+  }
+  
+})
+
+
+app.get("/ingredientes/:ID_INGREDIENTE", async (req, res) => {
+  let ingredienteRepository = getRepository("Ingrediente");
+  const ingrediente = await ingredienteRepository.findOne({
+    where: [{ ID_INGREDIENTE: req.params.ID_INGREDIENTE }],
+  });
+
+  if (ingrediente === null) {
+    return res.status(400).json({ message: "Ingrediente não encontrado!" });
+  }
+  else{
+    return res.status(200).json(ingrediente);
+  }
+  
+})
+
+app.get("/ingredientes", async (req, res) => {
+  let ingredienteRepository = getRepository("Ingrediente");
+  const ingrediente = await ingredienteRepository.find();
+  return res.status(200).json(ingrediente);
+})
+
+app.get("/receitas/:ID_RECEITA", async (req, res) => {
+  let receitaRepository = getRepository("Receita");
+  const receita = await receitaRepository.findOne({
+    where: [{ ID_RECEITA: req.params.ID_RECEITA }],
+  });
+
+  if (receita === null) {
+    return res.status(400).json({ message: "Receita não encontrada!" });
+  }
+  else{
+    return res.status(200).json(receita);
+  }
+  
+})
+
+
 app.patch("/nome/:ID_USUARIO", async (req, res) => {
   const { NOME } = req.body;
 

@@ -1,41 +1,32 @@
 const { EntitySchema} = require("typeorm")
 
 module.exports = new EntitySchema({
-    name: "Usuario",
-    tableName: "USUARIO",
+    name: "Passos",
+    tableName: "PASSOS",
     columns: {
-        ID_USUARIO: {
+        ID_PASSOS: {
             primary: true,
             type: "int",
             generated: true
         },
-        NOME: {
+        DESCRICAO: {
             type: "varchar",
             nullable: false,
         },
-        EMAIL: {
-            type: "varchar",
+        ID_RECEITA: {
+            type: "int",
             nullable: false
         },
-        SENHA: {
-            type: "varchar",
-            nullable: false
-        },
-        TIPO_USUARIO: {
-            type: "varchar",
-            nullable: false
-        }
     },
      relations: {
          receita: {
-             type: "many-to-one",
+             type: "one-to-many",
             target: "Receita",
            joinColumn: {
-                name: "ID_USUARIO",
+                name: "ID_RECEITA",
              },
-             inverseside: "usuario",
+             inverseside: "passos",
          },
-         // do relation with
      },
     
 })

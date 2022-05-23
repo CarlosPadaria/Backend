@@ -1,10 +1,10 @@
 const { EntitySchema} = require("typeorm")
 
 module.exports = new EntitySchema({
-    name: "Usuario",
-    tableName: "USUARIO",
+    name: "Ingrediente",
+    tableName: "INGREDIENTE",
     columns: {
-        ID_USUARIO: {
+        ID_INGREDIENTE: {
             primary: true,
             type: "int",
             generated: true
@@ -13,29 +13,20 @@ module.exports = new EntitySchema({
             type: "varchar",
             nullable: false,
         },
-        EMAIL: {
-            type: "varchar",
+        ID_RECEITA: {
+            type: "int",
             nullable: false
         },
-        SENHA: {
-            type: "varchar",
-            nullable: false
-        },
-        TIPO_USUARIO: {
-            type: "varchar",
-            nullable: false
-        }
     },
      relations: {
          receita: {
-             type: "many-to-one",
+             type: "one-to-many",
             target: "Receita",
            joinColumn: {
-                name: "ID_USUARIO",
+                name: "ID_RECEITA",
              },
-             inverseside: "usuario",
+             inverseside: "ingrediente",
          },
-         // do relation with
      },
     
 })
