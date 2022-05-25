@@ -81,6 +81,45 @@ app.delete("/usuarios/:ID_USUARIO", async (req, res) => {
   }
 });
 
+app.delete("/receitas/:ID_RECEITA", async (req, res) => {
+  let receitaRepository = getRepository("Receita");
+
+  req.body = await receitaRepository.findOne({
+    where: [{ ID_RECEITA: req.params.ID_RECEITA }],
+  });
+
+  if (req.body === null) {
+    return res.status(400).json({ message: "Receita não encontrada" });
+  } else {
+    let DeletarReceita = await receitaRepository.delete({
+      ID_RECEITA: `${req.params.ID_RECEITA}`,
+    });
+    return res.status(200).json(req.body);
+  }
+  
+})
+
+app.delete("/passosreceita/:ID_RECEITA", async (req, res) => {
+  let passoRepository = getRepository("Passos");
+
+ 
+    const DeletarPasso = await passoRepository.delete({
+      ID_RECEITA: `${req.params.ID_RECEITA}`
+    });
+   
+    return res.status(200).json(DeletarPasso);
+})
+
+
+app.delete("/ingredientesreceita/:ID_RECEITA", async (req, res) => {
+  let ingredienteRepository = getRepository("Ingrediente");
+
+  const DeletarIngrediente = await ingredienteRepository.delete({
+    ID_RECEITA: `${req.params.ID_RECEITA}`
+  });
+
+  return res.status(200).json(DeletarIngrediente);
+})
 app.post("/usuarios", async (req, res) => {
   const { NOME, EMAIL, SENHA, TIPO_USUARIO } = req.body;
   //console.log(req.body)
@@ -189,6 +228,36 @@ app.get("/ingredientes/:ID_INGREDIENTE", async (req, res) => {
   }
   
 })
+app.get("/ingredientesreceita/:ID_RECEITA", async (req, res) => {
+  let ingredienteRepository = getRepository("Ingrediente");
+  const ingrediente = await ingredienteRepository.find({
+    where: [{ ID_RECEITA: req.params.ID_RECEITA }],
+  });
+
+  if (ingrediente === null) {
+    return res.status(400).json({ message: "Ingrediente não encontrado!" });
+  }
+  else{
+    //console.log(JSON.parse(ingrediente))
+    return res.status(200).json(ingrediente);
+  }
+  
+})
+
+app.get("/passosreceita/:ID_RECEITA", async (req, res) => {
+  let passosRepository = getRepository("Passos");
+  const passo = await passosRepository.find({
+    where: [{ ID_RECEITA: req.params.ID_RECEITA }],
+  });
+
+  if (passo === null) {
+    return res.status(400).json({ message: "Ingrediente não encontrado!" });
+  }
+  else{
+    return res.status(200).json(passo);
+  }
+  
+})
 
 app.get("/ingredientes", async (req, res) => {
   let ingredienteRepository = getRepository("Ingrediente");
@@ -211,6 +280,21 @@ app.get("/receitas/:ID_RECEITA", async (req, res) => {
   
 })
 
+app.put("/receitas/:ID_RECEITA", async (req, res) => {
+  let receitaRepository = getRepository("Receita");
+  const receita = await receitaRepository.findOne({
+    where: [{ ID_RECEITA: req.params.ID_RECEITA }],
+  });
+
+  if (receita === null) {
+    return res.status(400).json({ message: "Receita não encontrada!" });
+  }
+  else{
+    const receitaAtualizada = await receitaRepository.update(receita.ID_RECEITA, req.body);
+    return res.status(200).json(receitaAtualizada);
+  }
+  
+})
 
 app.patch("/nome/:ID_USUARIO", async (req, res) => {
   const { NOME } = req.body;
