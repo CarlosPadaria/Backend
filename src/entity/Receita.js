@@ -21,9 +21,17 @@ module.exports = new EntitySchema({
       type: "varchar",
       nullable: true,
     },
+    TEMPO:{
+      type: "varchar",
+      nullable: true,
+    },
     ID_USUARIO: {
       type: "int",
     },
+    ATIVA: {
+      type: "varchar",
+      nullable: false,
+    }
   },
 
   // do relations with  usuario table

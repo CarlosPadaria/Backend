@@ -24,6 +24,10 @@ module.exports = new EntitySchema({
         TIPO_USUARIO: {
             type: "varchar",
             nullable: false
+        },
+        ATIVO: {
+            type: "varchar",
+            nullable: false
         }
     },
      relations: {
