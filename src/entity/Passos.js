@@ -17,6 +17,10 @@ module.exports = new EntitySchema({
             type: "int",
             nullable: false
         },
+        NUMERO: {
+            type: "int",
+            nullable: false
+        }
     },
      relations: {
          receita: {
